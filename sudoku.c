@@ -44,41 +44,6 @@ void print_node(Node* n){
 }
 
 int is_valid(Node* n){
-
-    return 1;
-}
-
-
-List* get_adj_nodes(Node* n) {
-    List* list = createList();
-
-    //Encontramos la primera casilla vacía
-    int encontrado = 0;
-    int row = 0, col = 0;
-    for (int i = 0; i < 9 && !encontrado; i++) {
-        for (int j = 0; j < 9 && !encontrado; j++) {
-            if (n->sudo[i][j] == 0) {
-                row = i;
-                col = j;
-                encontrado = 1;
-            }
-        }
-    }
-
-    // Generar los nodos adyacentes cambiando el valor de la primera casilla vacía de 1 a 9
-    if (encontrado) {
-        for (int value = 1; value <= 9; value++) {
-            Node* new_node = copy(n);
-            new_node->sudo[row][col] = value;
-            pushBack(list, new_node);
-        }
-    }
-
-    return list;
-}
-
-
-int is_final(Node* n){
     int i, j, m, p;
     int vistos[10];
 
@@ -128,6 +93,40 @@ int is_final(Node* n){
     }
 
     return 1;
+}
+
+
+List* get_adj_nodes(Node* n) {
+    List* list = createList();
+
+    //Encontramos la primera casilla vacía
+    int encontrado = 0;
+    int row = 0, col = 0;
+    for (int i = 0; i < 9 && !encontrado; i++) {
+        for (int j = 0; j < 9 && !encontrado; j++) {
+            if (n->sudo[i][j] == 0) {
+                row = i;
+                col = j;
+                encontrado = 1;
+            }
+        }
+    }
+
+    // Generar los nodos adyacentes cambiando el valor de la primera casilla vacía de 1 a 9
+    if (encontrado) {
+        for (int value = 1; value <= 9; value++) {
+            Node* new_node = copy(n);
+            new_node->sudo[row][col] = value;
+            pushBack(list, new_node);
+        }
+    }
+
+    return list;
+}
+
+
+int is_final(Node* n){
+    return 0;
 }
 
 Node* DFS(Node* initial, int* cont){
