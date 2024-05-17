@@ -79,7 +79,55 @@ List* get_adj_nodes(Node* n) {
 
 
 int is_final(Node* n){
-    return 0;
+    int i, j, m, p;
+    int vistos[10];
+
+    //Verificamos las filas
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 10; j++)
+            vistos[j] = 0;
+        for (j = 0; j < 9; j++){
+            int num = n->sudo[i][j];
+            if (num != 0){
+                if (vistos[num] == 1){
+                    return 0;
+                }
+                vistos[num] = 1;
+            }
+        }
+    }
+    //Verificamos las columnas
+    for (j = 0; j < 9; j++){
+        for (i = 0; i < 10; i++)
+            vistos[i] = 0;
+        for (i = 0; i < 9; i++){
+            int num = n->sudo[i][j];
+            if (num != 0){
+                if (vistos[num] == 1){
+                    return 0;
+                }
+                vistos[num] = 1;
+            }
+        }
+    }
+    //Verificamos las submatrices
+    for (m = 0; m < 9; m++){
+        for (i = 0; i < 10; i++)
+            vistos[i] = 0;
+        for (p = 0; p < 9; p++){
+            int row = 3 * (m / 3) + (p / 3);
+            int col = 3 * (m % 3) + (p % 3);
+            int num = n->sudo[row][col];
+            if (num != 0){
+                if (vistos[num] == 1){
+                    return 0;
+                }
+                vistos[num] = 1;
+            }
+        }
+    }
+
+    return 1;
 }
 
 Node* DFS(Node* initial, int* cont){
